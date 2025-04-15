@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="tealium-cordova-plugin" version="2.3.1" 
+name="tealium-cordova-plugin">
+
+    <name>TealiumCordova</name>
+    <description>Tealium Tag Management and UDH</description>
+    <keywords>tealium, tag, management,iOS,Android</keywords>
+    <repo>https://github.com/Tealium/cordova-plugin.git</repo>
+    <issue>https://github.com/Tealium/cordova-plugin/issues</issue>
+
+    <license>Commercial</license>
+
+    <engines>
+        <engine name="cordova" version=">=9.0.0" />
+    </engines>
+
+    <js-module src="www/tealium.js" name="tealium">
+        <clobbers target="tealium" />
+    </js-module>
+
+    <!-- ios -->
+    <platform name="ios">
+        <!-- Cordova < 2.3 -->
+        <plugins-plist key="TealiumCordova" string="TealiumCordova" />
+        <!-- Cordova >= 2.3 -->
+        <config-file target="config.xml" parent="/*">
+            <plugin name="TealiumCordova" value="TealiumCordova"/>
+            <feature name="TealiumCordova">
+                <param name="ios-package" value="TealiumCordova" />
+            </feature>
+            <preference name="SwiftVersion" value="5" />
+        </config-file>
+        <source-file src="src/ios/TealiumCordova.swift" />
+        <source-file src="src/ios/TealiumPlugin.swift" />
+        <source-file src="src/ios/TealiumPluginExtensions.swift" />
+        <source-file src="src/ios/TealiumCordovaConstants.swift" />
+        <source-file src="src/ios/RemoteCommandFactory.swift" />
+        <framework src="Foundation.framework" />
+        <framework src="CoreTelephony.framework" />
+        <framework src="SystemConfiguration.framework" />
+        <podspec>
+          <config>
+            <source url="https://github.com/CocoaPods/Specs.git"/>
+          </config>
+          <pods use-frameworks="true">
+            <pod name="tealium-swift/Core" spec="~> 2.8"/>
+            <pod name="tealium-swift/TagManagement" spec="~> 2.8"/>
+            <pod name="tealium-swift/Collect" spec="~> 2.8"/>
+            <pod name="tealium-swift/Lifecycle" spec="~> 2.8"/>
+            <pod name="tealium-swift/RemoteCommands" spec="~> 2.8"/>
+            <pod name="tealium-swift/VisitorService" spec="~> 2.8"/>
+          </pods> 
+        </podspec>
+    </platform>
+    <!-- android -->
+    <platform name="android">
+        <config-file target="config.xml" parent="/*">
+            <feature name="TealiumCordova">
+                <param name="android-package" value="com.tealium.cordova.TealiumCordova"/>
+            </feature>
+            <!-- Requires Kotlin to be enabled. -->
+            <preference name="GradlePluginKotlinEnabled" value="true" />
+            <preference name="AndroidXEnabled" value="true" />
+        </config-file>
+        <framework src="src/android/tealium.gradle" custom="true" type="gradleReference" />
+        <source-file src="src/android/TealiumCordova.kt" target-dir="src/main/kotlin/com/tealium/cordova" />
+        <source-file src="src/android/Constants.kt" target-dir="src/main/kotlin/com/tealium/cordova" />
+        <source-file src="src/android/Extensions.kt" target-dir="src/main/kotlin/com/tealium/cordova" />
+        <source-file src="src/android/Listeners.kt" target-dir="src/main/kotlin/com/tealium/cordova" />
+        <source-file src="src/android/RemoteCommandFactory.kt" target-dir="src/main/kotlin/com/tealium/cordova" />
+     </platform>
+</plugin>
